@@ -16,7 +16,7 @@ $query = "INSERT INTO events (idUsr, title, descriz, POSITION, START, end) VALUE
 
 if($conn->query($query) === TRUE){
     //echo "Evento aggiunto con successo";
-    //header("Location: planner.html");
+    header("Location: planner.html");
 }else{
     echo "Errore";
 }

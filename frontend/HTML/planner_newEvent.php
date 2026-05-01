@@ -1,3 +1,7 @@
+<?php
+include "connect_db.php";
+?>
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -10,10 +14,12 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
   <!-- CSS progetto -->
-  <link rel="stylesheet" href="./CSS/fontSettings.css">
-  <link rel="stylesheet" href="./CSS/interCSS.css">
-  <link rel="stylesheet" href="./CSS/detailedCSS.css">
-  <link rel="stylesheet" href="./CSS/planner.css">
+  <link rel="stylesheet" href="../CSS/fontSettings.css">
+  <link rel="stylesheet" href="../CSS/interCSS.css">
+  <link rel="stylesheet" href="../CSS/detailedCSS.css">
+  <link rel="stylesheet" href="../CSS/planner.css">
+  <link rel="stylesheet" href="../CSS/calendario.css">
+
 
   <style>
     /* ── NAVBAR NUOVO EVENTO (dark top bar) ── */
@@ -360,70 +366,42 @@
     <div class="mainLayout newEvent-layout">
 
       <!-- COLONNA SINISTRA: calendario + agenda -->
-      <div class="newEvent-leftCol">
+<div class="newEvent-leftCol">
 
-        <!-- CALENDARIO -->
-        <div class="block planner-calendar-block">
+  <!-- CALENDARIO DINAMICO (Sostituito quello statico) -->
+  <div class="block planner-calendar-block">
+
           <div class="metaTag">Calendario</div>
-          <div class="elementTitle" style="display:flex; align-items:center; gap:8px;">
-            <i class="bi bi-calendar3" style="font-size:26px; color:#555;"></i>
-            Novembre
-            <i class="bi bi-caret-down-fill" style="font-size:13px; color:#aaa;"></i>
+
+          <div class="cal-header-row">
+            <i class="bi bi-calendar3 cal-icon"></i>
+
+            <div class="cal-month-row">
+              <button class="cal-month-btn" id="month-btn" type="button">
+                <div class="elementTitle" id="month-label">Novembre 2025</div>
+                <i class="bi bi-caret-down-fill cal-caret" id="cal-caret"></i>
+              </button>
+
+              <div class="cal-dropdown" id="cal-dropdown">
+                <div class="cal-dd-year-row">
+                  <button class="cal-dd-year-btn" id="yr-prev" type="button">&#8592;</button>
+                  <span class="cal-dd-year-val" id="dd-year-val"></span>
+                  <button class="cal-dd-year-btn" id="yr-next" type="button">&#8594;</button>
+                </div>
+
+                <div class="cal-dd-months" id="dd-months"></div>
+              </div>
+            </div>
           </div>
-          <hr style="margin: 14px 0; opacity: 0.2;">
 
-          <div class="calendar">
-            <div class="weekday">LUN</div>
-            <div class="weekday">MAR</div>
-            <div class="weekday">MER</div>
-            <div class="weekday">GIO</div>
-            <div class="weekday">VEN</div>
-            <div class="weekday">SAB</div>
-            <div class="weekday">DOM</div>
+          <hr class="cal-hr">
 
-            <div class="day prevMonth">27</div>
-            <div class="day prevMonth">28</div>
-            <div class="day prevMonth">29</div>
-            <div class="day prevMonth">30</div>
-            <div class="day prevMonth">31</div>
-            <div class="day">1</div>
-            <div class="day sunday">2</div>
+          <div class="calendar" id="cal-grid"></div>
 
-            <div class="day">3</div>
-            <div class="day">4</div>
-            <div class="day">5</div>
-            <div class="day">6</div>
-            <div class="day">7</div>
-            <div class="day">8</div>
-            <div class="day sunday">9</div>
-
-            <div class="day">10</div>
-            <div class="day">11</div>
-            <div class="day">12</div>
-            <div class="day">13</div>
-            <div class="day">14</div>
-            <div class="day">15</div>
-            <div class="day sunday">16</div>
-
-            <div class="day">17</div>
-            <div class="day today">18</div>
-            <div class="day selected">19</div>
-            <div class="day">20</div>
-            <div class="day">21</div>
-            <div class="day">22</div>
-            <div class="day sunday">23</div>
-
-            <div class="day">24</div>
-            <div class="day">25</div>
-            <div class="day">26</div>
-            <div class="day">27</div>
-            <div class="day">28</div>
-            <div class="day">29</div>
-            <div class="day sunday">30</div>
-          </div>
         </div>
 
         <!-- LA TUA GIORNATA -->
+         
         <div class="block newEvent-dayAgenda">
           <div class="newEvent-dayAgenda-header">
             <div class="metaTag" style="font-size:14px;">La tua Giornata</div>
@@ -475,6 +453,7 @@
         <!-- FORM CARD -->
         <div class="block newEvent-formCard">
 
+        <!-- TODO: RENDERE DINAMICO -->
           <div class="newEvent-dayHeader">
             <div class="newEvent-dayNumber">19</div>
             <div class="newEvent-dayMeta">
@@ -488,44 +467,48 @@
             <div class="newEvent-formIntro-bold">Personalizza il tuo Promemoria.</div>
           </div>
 
-          <div class="newEvent-formFields">
+          <form action="addEvent.php" method="post">
+            <div class="newEvent-formFields">
 
-            <div class="newEvent-fieldGroup">
-              <span class="newEvent-fieldLabel">Titolo</span>
-              <input type="text" class="newEvent-input" placeholder="Nome Evento" value="Inter Ikea Laboratory">
-            </div>
+              <div class="newEvent-fieldGroup">
+                <span class="newEvent-fieldLabel">Titolo</span>
+                <input type="text" name="nameEvent" class="newEvent-input " placeholder="Nome Evento ">
+              </div>
 
-            <div class="newEvent-fieldGroup">
-              <span class="newEvent-fieldLabel">Posizione</span>
-              <input type="text" class="newEvent-input" placeholder="Luogo" value="Ikea di Milano Corsico">
-            </div>
+              <div class="newEvent-fieldGroup">
+                <span class="newEvent-fieldLabel">Posizione</span>
+                <input type="text" name="placeEvent" class="newEvent-input" placeholder="Luogo" >
+              </div>
 
-            <div class="newEvent-fieldGroup">
-              <span class="newEvent-fieldLabel">Timeline</span>
-              <div class="newEvent-timeRow">
-                <div class="timeBlock">
-                  <span class="timeLabel">Dalle Ore:</span>
-                  <input type="time" class="newEvent-inputTime" value="10:00">
-                </div>
-                <div class="timeBlock">
-                  <span class="timeLabel">Alle Ore:</span>
-                  <input type="time" class="newEvent-inputTime" value="11:00">
-                </div>
-                <div class="timeDuration">
-                  <div class="timeDuration-main">1h</div>
-                  <div class="timeDuration-sub">Durata Totale</div>
+              <div class="newEvent-fieldGroup">
+                <span class="newEvent-fieldLabel">Timeline</span>
+                <div class="newEvent-timeRow">
+                  <input type="hidden" name="dateEvent" id="data_evento_input" >
+                  <div class="timeBlock">
+                    <span class="timeLabel">Dalle Ore:</span>
+                    <input type="time" name="startTime" class="newEvent-inputTime" value="10:00">
+                  </div>
+                  <div class="timeBlock">
+                    <span class="timeLabel">Alle Ore:</span>
+                    <input type="time" name="endTime" class="newEvent-inputTime" value="11:00">
+                  </div>
+                  <div class="timeDuration">
+                    <div class="timeDuration-main">1h</div>
+                    <div class="timeDuration-sub">Durata Totale</div>
+                  </div>
                 </div>
               </div>
+
+              <div class="newEvent-fieldGroup">
+                <span class="newEvent-fieldLabel">Note</span>
+                <textarea name="descriz" class="newEvent-input newEvent-textarea" rows="4" placeholder="Note"></textarea>
+              </div>
+
+              <button class="newEvent-addBtn">Aggiungi</button>
+
             </div>
-
-            <div class="newEvent-fieldGroup">
-              <span class="newEvent-fieldLabel">Note</span>
-              <textarea class="newEvent-input newEvent-textarea" rows="4" placeholder="Note"></textarea>
-            </div>
-
-            <button class="newEvent-addBtn">Aggiungi</button>
-
-          </div>
+          </form>
+          
         </div>
 
         <!-- ASSISTANT CARD -->
@@ -539,5 +522,6 @@
     </div>
   </div>
 
+  <script src="../JS/calendario.js"></script>
 </body>
 </html>

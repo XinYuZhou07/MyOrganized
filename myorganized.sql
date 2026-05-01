@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Apr 27, 2026 alle 11:33
+-- Creato il: Mag 01, 2026 alle 17:57
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -32,11 +32,24 @@ CREATE TABLE `events` (
   `idUsr` int(11) NOT NULL DEFAULT 0,
   `idProp` int(11) NOT NULL DEFAULT 0,
   `title` varchar(50) DEFAULT NULL,
-  `desciz` varchar(100) DEFAULT NULL,
+  `descriz` varchar(100) DEFAULT NULL,
   `position` text DEFAULT NULL,
-  `start` datetime DEFAULT NULL,
-  `end` datetime DEFAULT NULL
+  `start` datetime NOT NULL DEFAULT current_timestamp(),
+  `end` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `events`
+--
+
+INSERT INTO `events` (`id`, `idUsr`, `idProp`, `title`, `descriz`, `position`, `start`, `end`) VALUES
+(4, 1, 0, 'test Ho perso il conto', 'non si vede niente', 'terrazzo', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(5, 1, 0, 'Testing', 'w', 'dd', '2026-05-10 19:23:00', '0000-00-00 00:00:00'),
+(6, 1, 0, 'gatto', '', 'dnskn', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(7, 1, 0, 'Test Ven', '', 'dasd', '2026-05-22 19:29:00', '0000-00-00 00:00:00'),
+(8, 1, 0, 'sd', '', 'sd', '2026-05-07 20:31:00', '0000-00-00 00:00:00'),
+(9, 1, 0, 'sd', '', 'sd', '2026-05-07 20:31:00', '0000-00-00 00:00:00'),
+(10, 1, 0, 'sd', '', 'sd', '2026-05-07 20:31:00', '2026-05-07 22:06:00');
 
 -- --------------------------------------------------------
 
@@ -169,7 +182,8 @@ ALTER TABLE `tags`
 -- Indici per le tabelle `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indici per le tabelle `usr-routines`
@@ -185,7 +199,7 @@ ALTER TABLE `usr-routines`
 -- AUTO_INCREMENT per la tabella `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT per la tabella `proposals`

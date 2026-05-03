@@ -14,9 +14,17 @@
     <link rel="stylesheet" href="../CSS/interCSS.css">
     <link rel="stylesheet" href="../CSS/detailedCSS.css">
     <link rel="stylesheet" href="../CSS/planner.css">
+    <link rel="stylesheet" href="../CSS/calendario.css">
+
+    <style>
+        
+    </style>
 </head>
 
 <body>
+
+    <!-- Input hidden richiesto da calendario.js — non visibile all'utente -->
+    <input type="hidden" id="data_evento_input">
 
     <!-- NAVBAR -->
     <div class="navBar">
@@ -28,7 +36,6 @@
                 <a href="#" class="Active">Planner</a>
             </div>
         </div>
-
         <div class="navBar-R">
             <span class="navBar-UsrName">John Appleseed</span>
             <img class="navBar-Avatar" src="./img/defaultProfile.jpg" alt="">
@@ -37,115 +44,89 @@
 
     <!-- PAGINA -->
     <div class="mainView">
-
-        <!-- STESSA LOGICA DELLA HOME, MA CON CLASSE IN PIÙ -->
         <div class="mainLayout plannerLayout">
 
-            <!-- ========================= -->
             <!--       COLONNA SINISTRA    -->
-            <!-- ========================= -->
             <div class="rightColumn">
 
-                <!-- Titolo -->
                 <p class="superTitle">Planner</p>
                 <p class="subTitle">Preparati per nuovi eventi.</p>
 
-                <!-- Calendario (IDENTICO alla home: stesse classi) -->
+                <!-- Calendario -->
                 <div class="block planner-calendar-block">
                     <div class="metaTag">Calendario</div>
-                    <div class="elementTitle">Novembre</div>
-
-                    <hr style="margin: 12px 0; opacity: 0.25;">
-
-                    <div class="calendar">
-                        <div class="weekday">LUN</div>
-                        <div class="weekday">MAR</div>
-                        <div class="weekday">MER</div>
-                        <div class="weekday">GIO</div>
-                        <div class="weekday">VEN</div>
-                        <div class="weekday">SAB</div>
-                        <div class="weekday">DOM</div>
-
-                        <!-- giorni -->
-                        <div class="day prevMonth">27</div>
-                        <div class="day prevMonth">28</div>
-                        <div class="day prevMonth">29</div>
-                        <div class="day prevMonth">30</div>
-                        <div class="day prevMonth">31</div>
-                        <div class="day">1</div>
-                        <div class="day">2</div>
-
-                        <div class="day">3</div><div class="day">4</div><div class="day">5</div>
-                        <div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div>
-
-                        <div class="day">10</div><div class="day">11</div><div class="day">12</div>
-                        <div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div>
-
-                        <div class="day">17</div><div class="day today">18</div><div class="day">19</div>
-                        <div class="day">20</div><div class="day">21</div><div class="day">22</div>
-
-                        <div class="day">23</div><div class="day">24</div><div class="day">25</div>
-                        <div class="day">26</div><div class="day">27</div><div class="day">28</div>
-                        <div class="day">29</div><div class="day">30</div>
+                    <div style="display:flex; align-items:center; gap:10px; margin-top:4px;">
+                        <i class="bi bi-calendar3" style="font-size:26px; color:#555;"></i>
+                        <div class="cal-month-row">
+                            <button class="cal-month-btn" id="month-btn">
+                                <div class="elementTitle" id="month-label">Novembre 2025</div>
+                                <i class="bi bi-caret-down-fill cal-caret" id="cal-caret"></i>
+                            </button>
+                            <div class="cal-dropdown" id="cal-dropdown">
+                                <div class="cal-dd-year-row">
+                                    <button class="cal-dd-year-btn" id="yr-prev">&#8592;</button>
+                                    <span class="cal-dd-year-val" id="dd-year-val"></span>
+                                    <button class="cal-dd-year-btn" id="yr-next">&#8594;</button>
+                                </div>
+                                <div class="cal-dd-months" id="dd-months"></div>
+                            </div>
+                        </div>
                     </div>
+
+                    <hr style="margin: 14px 0; opacity: 0.2;">
+
+                    <div class="calendar" id="cal-grid"></div>
                 </div>
 
                 <!-- AI Suggestion -->
                 <div class="planner-ai">
                     <div class="planner-ai-icon"><i class="bi bi-info-circle"></i></div>
                     <div>
-                        <div class="planner-ai-title">Suggerimenti dall’IA</div>
+                        <div class="planner-ai-title">Suggerimenti dall'IA</div>
                         <div class="planner-ai-text">
                             Lasciati ispirare dai suggerimenti basati sulla tua routine.
                         </div>
-                        <div class="planner-ai-status">Attendo l’IA...</div>
+                        <div class="planner-ai-status">Attendo l'IA...</div>
                     </div>
                 </div>
             </div>
 
-            <!-- ========================= -->
-            <!--          COLONNA DESTRA  -->
-            <!-- ========================= -->
+            <!--        COLONNA DESTRA     -->
+
             <div class="leftColumn">
                 <div class="block planner-right-block">
 
                     <div class="planner-day-header">
                         <div class="planner-day-left">
-                            <div class="planner-day-number">19</div>
+                            <div id="planner-day-number" class="planner-day-number">—</div>
                             <div class="planner-day-meta">
-                                <div class="planner-day-weekday">Lunedì</div>
-                                <div class="planner-day-month">Novembre</div>
+                                <div id="planner-day-weekday" class="planner-day-weekday">—</div>
+                                <div id="planner-day-month" class="planner-day-month">—</div>
                             </div>
                         </div>
-                        <a href="./planner_newEvent.php">
+                        <a id="new-event-btn" href="./php/planner_newEvent.php">
                             <button class="planner-new-event">+ Nuovo Evento</button>
                         </a>
                     </div>
 
                     <div class="planner-day-divider"></div>
 
-                    <div class="planner-events-list">
-
-                        <div class="planner-event">
-                            <div class="planner-event-time">
-                                <div class="planner-event-time-main">10:00</div>
-                                <div class="planner-event-time-sub">1.5h</div>
-                            </div>
-                            <div class="planner-event-separator"></div>
-                            <div class="planner-event-body">
-                                <div class="planner-event-title">Inter Ikea Laboratory</div>
-                                <div class="planner-event-location">Ikea di Milano Corsico.</div>
-                            </div>
+                    <div id="planner-events-list" class="planner-events-list">
+                        <div class="ec-empty">
+                            <div class="ec-empty-icon"><i class="bi bi-calendar3"></i></div>
+                            <div class="ec-empty-text">Seleziona un giorno nel calendario.</div>
                         </div>
-
-                        <!-- altri eventi identici... -->
                     </div>
 
                 </div>
             </div>
 
-        </div> <!-- /mainLayout -->
-    </div> <!-- /mainView -->
+        </div>
+    </div>
+
+    <script src="../JS/calendario.js"></script>
+
+    <script src="../JS/planner.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,197 @@
+/* ── NAVBAR NUOVO EVENTO ── */
+    .navbar-newEvent {
+      width: 95%;
+      margin: 25px auto 0 auto;
+      background: #4a4a4a;
+      padding: 16px 24px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    }
+    .navbar-newEvent-L {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .navbar-newEvent-back {
+      color: white;
+      font-size: 22px;
+      text-decoration: none;
+      opacity: 0.85;
+      line-height: 1;
+    }
+    .navbar-newEvent-titleBlock .main {
+      font-size: 20px;
+      font-weight: 400;
+      color: white;
+      line-height: 1.15;
+    }
+    .navbar-newEvent-titleBlock .sub {
+      font-size: 13px;
+      font-weight: 200;
+      color: rgba(255,255,255,0.55);
+      line-height: 1;
+    }
+    .navbar-newEvent-brand {
+      font-size: 22px;
+      font-weight: 300;
+      color: white;
+      text-decoration: none;
+    }
+
+    /* ── LAYOUT ── */
+    .newEvent-layout {
+      display: grid;
+      grid-template-columns: 38% 1fr;
+      gap: 2.5%;
+      align-items: start;
+    }
+    .newEvent-leftCol {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ── CALENDARIO ── */
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      margin-top: 10px;
+      text-align: center;
+    }
+    .calendar .weekday {
+      font-size: 12px;
+      font-weight: 600;
+      color: #aaa;
+      padding: 4px 0;
+      letter-spacing: 0.5px;
+    }
+    .calendar .day {
+      font-size: 14px;
+      width: 38px;
+      height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      cursor: pointer;
+      margin: auto;
+      color: #333;
+      font-weight: 300;
+      transition: background 0.15s;
+      border: 1px solid #e8e8e8;
+    }
+    .calendar .day:hover { background: #f5f5f5; }
+    .calendar .day.prevMonth { color: #bbb; border-color: #f0f0f0; }
+    .calendar .day.today {
+      background: #e8720c;
+      color: #fff;
+      border-color: #e8720c;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(243,156,18,0.3);
+    }
+    .calendar .day.selected {
+      background: #f5a623;
+      color: #fff;
+      border-color: #f5a623;
+      font-weight: 500;
+    }
+    .calendar .day.sunday { color: #e0547a; border-color: #fce4ec; }
+    .calendar .day.sunday.today,
+    .calendar .day.sunday.selected { color: #fff; }
+
+    /* ── AGENDA ── */
+    .newEvent-dayAgenda { border: 2px solid #333 !important; }
+    .newEvent-dayAgenda-header { margin-bottom: 14px; }
+    .newEvent-dayAgenda-list { display: flex; flex-direction: column; gap: 10px; }
+    .newEvent-agendaItem {
+      display: flex;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid #eee;
+      background: #fff;
+    }
+    .newEvent-agendaTime { min-width: 38px; text-align: left; }
+    .newEvent-agendaTime .timeMain { font-size: 13px; font-weight: 600; color: #4a4aab; display: block; }
+    .newEvent-agendaTime .timeSub  { font-size: 10px; color: #aaa; display: block; }
+    .newEvent-agendaTitle    { font-size: 14px; font-weight: 500; color: #111; }
+    .newEvent-agendaLocation { font-size: 12px; color: #999; margin-top: 1px; }
+
+    /* stato vuoto agenda */
+    .agenda-empty {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 8px; padding: 24px 0; color: #c0c0c0;
+    }
+    .agenda-empty i { font-size: 28px; }
+    .agenda-empty span { font-size: 14px; font-weight: 300; }
+
+    /* ── COLONNA DESTRA ── */
+    .newEvent-right { display: flex; flex-direction: column; gap: 20px; }
+
+    .newEvent-dayHeader {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .newEvent-dayNumber {
+      font-size: 80px;
+      font-weight: 100;
+      line-height: 0.9;
+      color: #111;
+    }
+    .newEvent-dayWeekday { font-size: 28px; font-weight: 300; color: #111; line-height: 1.1; }
+    .newEvent-dayMonth   { font-size: 28px; font-weight: 400; color: #111; line-height: 1.1; }
+
+    .newEvent-formIntro { margin-bottom: 22px; }
+    .newEvent-formIntro-small { font-size: 13px; color: #aaa; font-weight: 200; margin-bottom: 2px; }
+    .newEvent-formIntro-bold  { font-size: 17px; font-weight: 500; color: #111; }
+
+    .newEvent-formFields { display: flex; flex-direction: column; gap: 16px; }
+    .newEvent-fieldLabel {
+      font-size: 12px; font-weight: 500; color: #888;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      margin-bottom: 6px; display: block;
+    }
+    .newEvent-input {
+      width: 100%; padding: 13px 16px;
+      border: 1px solid #e0e0e0; border-radius: 8px;
+      font-size: 15px; color: #111; background: #fff;
+      outline: none; font-family: inherit; transition: border-color 0.15s;
+    }
+    .newEvent-input:focus { border-color: #f5a623; }
+    .newEvent-input::placeholder { color: #ccc; }
+    textarea.newEvent-input { resize: none; }
+
+    .newEvent-timeRow { display: flex; align-items: center; gap: 12px; }
+    .timeBlock { display: flex; align-items: center; gap: 8px; flex: 1; }
+    .timeLabel  { font-size: 13px; color: #888; white-space: nowrap; }
+    .newEvent-inputTime {
+      padding: 11px 12px; border: 1px solid #e0e0e0; border-radius: 8px;
+      font-size: 14px; color: #111; outline: none; width: 100%; font-family: inherit;
+    }
+    .newEvent-inputTime:focus { border-color: #f5a623; }
+
+    .timeDuration {
+      background: #f5a623; color: #fff; border-radius: 8px;
+      padding: 10px 18px; text-align: center; min-width: 88px;
+    }
+    .timeDuration-main { font-size: 20px; font-weight: 600; line-height: 1; }
+    .timeDuration-sub  { font-size: 10px; opacity: 0.9; margin-top: 3px; }
+
+    .newEvent-addBtn {
+      width: 100%; padding: 17px;
+      background: #f5a623; color: #fff; border: none;
+      border-radius: 10px; font-size: 17px; font-weight: 500;
+      cursor: pointer; margin-top: 4px; font-family: inherit;
+      transition: background 0.15s; letter-spacing: 0.3px;
+    }
+    .newEvent-addBtn:hover { background: #e8720c; }
+
+    .newEvent-assistantCard { padding: 24px 30px; }
+    .newEvent-assistantCard .superTitle { font-size: 42px; font-weight: 300; margin-bottom: -10px; color: #404040; }
+    .newEvent-assistantCard .subTitle   { font-size: 24px; font-weight: 200; color: #878787; }

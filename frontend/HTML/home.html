@@ -1,182 +1,256 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyOrganized</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/segoe-ui-variable-static-display" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../CSS/fontSettings.css">
     <link rel="stylesheet" href="../CSS/interCSS.css">
     <link rel="stylesheet" href="../CSS/detailedCSS.css">
+    <link rel="stylesheet" href="../CSS/calendario.css">
+
+    <style>
+        .ec-empty {
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 10px; padding: 30px 0; color: #c0c0c0;
+        }
+        .ec-empty-icon { font-size: 32px; }
+        .ec-empty-text { font-size: 15px; font-weight: 300; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .spin { display: inline-block; animation: spin 0.9s linear infinite; }
+        .ongoing-bar {
+            height: 6px;
+            background: #FF8C00;
+            margin-top: 12px;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 
-<script>
-    const accessKey = "4f2742482d50f95 6c8a8529b67a65ca5";
-    const city = "Milan";
-
-    fetch(`http://api.weatherstack.com/current?access_key=${accessKey}&query=${city}`)
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById("result").textContent =
-                `${data.current.temperature}°`;
-        })
-        .catch(err => console.error(err));
-</script>
-
 <body>
+
+    <!-- Input hidden richiesto da calendario.js -->
+    <input type="hidden" id="data_evento_input">
+
+    <!-- NAVBAR -->
     <div class="navBar">
         <div class="navBar-L">
-            <a class="navBar-Brand" href="./homePage.html " ">MyOrganized</a>
-
-          <div class="navBar-Link ">
-            <a href="# " class="Active ">Panoramica</a>
-            <a href="./store.html ">Store</a>
-            <a href="./planner.html ">Planner</a>
-          </div>
-        </div>
-
-        <div class="navBar-R ">
-          <span class="navBar-UsrName ">John Appleseed</span>
-          <img class="navBar-Avatar " src="./img/defaultProfile.jpg " alt="Avatar ">
-        </div>
-      </div>
-
-      <div class="mainView ">
-        <div class="mainView ">
-          <div class="mainLayout ">
-            <div class="leftColumn ">
-              <div class="block ">
-                <div class="dateHeader ">
-                  <div class="dateLeft keepLine ">
-                    <div class="superTitle ">18</div>
-                    <div style="margin-top: 27px; ">
-                      <div class="elementTitle ">Lunedì</div>
-                      <div class="elementSubtitle " style="margin-top:-6px; ">Novembre</div>
-                    </div>
-                  </div>
-
-                  <div class="dateRight " style="margin-top: -90px; ">
-                    <div class="elementTitle " id="result ">5°</div> <!--5° da rimpiazzare con: "Attendo il Meteo " come placeholder nell'attesa dei dati con le api.-->
-                    <div class="elementText " style="font-size:20px; ">Milano, Lombardia.</div>
-                  </div>
-                </div>
-
-                <hr style="margin:18px 0; opacity:0.25; ">
-
-                <div>
-                  <div class="metaTag ">09:41 Evento in Corso - (9:00 - 10:15, 1.5h)</div>
-                  <div class="elementTitle ">Meet con Craig Federighi</div>
-                  <div class="elementSubtitle ">Studio Microsoft di Milano</div>
-                  <div style="height:6px; background:#FF8C00; margin-top:12px; width:42.9%; "></div>
-                </div>
-
-                <div style="margin-top:18px; flex:1 1 auto; ">
-
-                  <div style="display:flex; flex-direction:column; gap:18px; ">
-                    <div class="eventCard ">
-                      <div class="eventDuration ">10:00 • <span style="font-weight:500 ">1.5h</span></div>
-                      <div class="eventTitle ">Inter Ikea Laboratory</div>
-                      <div class="eventSubtitle ">Ikea di Milano Corsico.</div>
-                    </div>
-
-                    <div class="eventCard ">
-                      <div class="eventDuration="margin-bottom: 0px;">11:30 • 2h</div>
-        <div class="elementTitle freeTime" style="margin-top: -5px;">Tempo Libero</div>
-        <div class="eventSubtitle">Studio di Milano Corsico</div>
-    </div>
-
-    <div class="eventCard">
-        <div class="eventDuration">15:00 • <span style="font-weight:500">1h</span></div>
-        <div class="eventTitle">Business Area</div>
-        <div class="eventSubtitle">Ikea di Milano Corsico.</div>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-
-    <div class="rightColumn">
-
-        <div class="block">
-            <div class="metaTag">Calendario</div>
-            <div class="elementTitle">Novembre</div>
-            <hr style="margin:12px 0; opacity:0.25;">
-            <div class="calendar">
-                <div class="weekday">LUN</div>
-                <div class="weekday">MAR</div>
-                <div class="weekday">MER</div>
-                <div class="weekday">GIO</div>
-                <div class="weekday">VEN</div>
-                <div class="weekday">SAB</div>
-                <div class="weekday">DOM</div>
-
-                <div class="day prevMonth">27</div>
-                <div class="day prevMonth">28</div>
-                <div class="day prevMonth">29</div>
-                <div class="day prevMonth">30</div>
-                <div class="day prevMonth">31</div>
-                <div class="day">1</div>
-                <div class="day">2</div>
-                <div class="day">3</div>
-                <div class="day">4</div>
-                <div class="day">5</div>
-                <div class="day">6</div>
-                <div class="day">7</div>
-                <div class="day">8</div>
-                <div class="day">9</div>
-                <div class="day">10</div>
-                <div class="day">11</div>
-                <div class="day">12</div>
-                <div class="day">13</div>
-                <div class="day">14</div>
-                <div class="day">15</div>
-                <div class="day">16</div>
-                <div class="day">17</div>
-                <div class="day today">18</div>
-                <div class="day">19</div>
-                <div class="day">20</div>
-                <div class="day">21</div>
-                <div class="day">22</div>
-
-                <div class="day">23</div>
-                <div class="day">24</div>
-                <div class="day">25</div>
-                <div class="day">26</div>
-                <div class="day">27</div>
-                <div class="day">28</div>
-                <div class="day">29</div>
-                <div class="day">30</div>
+            <a class="navBar-Brand" href="./homePage.html">MyOrganized</a>
+            <div class="navBar-Link">
+                <a href="#" class="Active">Panoramica</a>
+                <a href="./store.html">Store</a>
+                <a href="./planner.html">Planner</a>
             </div>
         </div>
+        <div class="navBar-R">
+            <span class="navBar-UsrName">John Appleseed</span>
+            <img class="navBar-Avatar" src="./img/defaultProfile.jpg" alt="Avatar">
+        </div>
+    </div>
 
-        <div class="block">
-            <div class="elementTitle">Feed<span style="color:#FF8C00;">RSS</span></div>
-            <div class="elementSubtitle">Visualizza gli ultimi aggiornamenti.</div>
-            <hr style="margin:12px 0; opacity:0.25;">
-            <div>
-                <div>
-                    <div class="metaTag" style="font-weight:600;">CNN</div>
-                    <div class="elementText">US trumpets Ukraine progress, but will the Kremlin agree?</div>
+    <div class="mainView">
+        <div class="mainLayout">
+
+            <!-- ========================= -->
+            <!--       COLONNA SINISTRA    -->
+            <!-- ========================= -->
+            <div class="leftColumn">
+                <div class="block">
+
+                    <!-- Date + Meteo header -->
+                    <div class="dateHeader">
+                        <div class="dateLeft keepLine">
+                            <div id="home-day-number" class="superTitle">—</div>
+                            <div style="margin-top: 27px;">
+                                <div id="home-day-weekday" class="elementTitle">—</div>
+                                <div id="home-day-month" class="elementSubtitle" style="margin-top:-6px;">—</div>
+                            </div>
+                        </div>
+                        <div class="dateRight" style="margin-top: -90px;">
+                            <div id="meteo-temp" class="elementTitle">—°</div>
+                            <div class="elementText" style="font-size:20px;">Milano, Lombardia.</div>
+                        </div>
+                    </div>
+
+                    <hr style="margin:18px 0; opacity:0.25;">
+
+                    <!-- Evento in corso -->
+                    <div id="ongoing-section" style="display:none;">
+                        <div id="ongoing-meta" class="metaTag"></div>
+                        <div id="ongoing-title" class="elementTitle"></div>
+                        <div id="ongoing-location" class="elementSubtitle"></div>
+                        <div id="ongoing-bar" class="ongoing-bar" style="width:0%;"></div>
+                    </div>
+
+                    <!-- Lista event card -->
+                    <div style="margin-top:18px; flex:1 1 auto;">
+                        <div style="display:flex; flex-direction:column; gap:18px;" id="home-events-inner">
+                            <div class="ec-empty">
+                                <div class="ec-empty-icon"><i class="bi bi-arrow-repeat spin"></i></div>
+                                <div class="ec-empty-text">Caricamento eventi…</div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="spacer-Mini"></div>
-                <div>
-                    <div class="metaTag" style="font-weight:600;">BBC</div>
-                    <div class="elementText">Boy with rare condition amazes doctors after world-first gene therapy</div>
+            </div>
+
+            <!-- ========================= -->
+            <!--       COLONNA DESTRA      -->
+            <!-- ========================= -->
+            <div class="rightColumn">
+
+                <!-- Calendario dinamico -->
+                <div class="block">
+                    <div class="metaTag">Calendario</div>
+                    <div style="display:flex; align-items:center; gap:10px; margin-top:4px;">
+                        <i class="bi bi-calendar3" style="font-size:26px; color:#555;"></i>
+                        <div class="cal-month-row">
+                            <button class="cal-month-btn" id="month-btn" type="button">
+                                <div class="elementTitle" id="month-label"></div>
+                                <i class="bi bi-caret-down-fill cal-caret" id="cal-caret"></i>
+                            </button>
+                            <div class="cal-dropdown" id="cal-dropdown">
+                                <div class="cal-dd-year-row">
+                                    <button class="cal-dd-year-btn" id="yr-prev" type="button">&#8592;</button>
+                                    <span class="cal-dd-year-val" id="dd-year-val"></span>
+                                    <button class="cal-dd-year-btn" id="yr-next" type="button">&#8594;</button>
+                                </div>
+                                <div class="cal-dd-months" id="dd-months"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="margin:14px 0; opacity:0.2;">
+                    <div class="calendar" id="cal-grid"></div>
                 </div>
-                <div class="spacer-Mini"></div>
-                <div>
-                    <div class="metaTag" style="font-weight:600;">rss source</div>
-                    <div class="elementText">Other News Article</div>
+
+                <!-- Feed RSS -->
+                <div class="block">
+                    <div class="elementTitle">Feed<span style="color:#FF8C00;">RSS</span></div>
+                    <div class="elementSubtitle">Visualizza gli ultimi aggiornamenti.</div>
+                    <hr style="margin:12px 0; opacity:0.25;">
+                    <div>
+                        <div>
+                            <div class="metaTag" style="font-weight:600;">CNN</div>
+                            <div class="elementText">US trumpets Ukraine progress, but will the Kremlin agree?</div>
+                        </div>
+                        <div class="spacer-Mini"></div>
+                        <div>
+                            <div class="metaTag" style="font-weight:600;">BBC</div>
+                            <div class="elementText">Boy with rare condition amazes doctors after world-first gene therapy</div>
+                        </div>
+                        <div class="spacer-Mini"></div>
+                        <div>
+                            <div class="metaTag" style="font-weight:600;">RSS Source</div>
+                            <div class="elementText">Other News Article</div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
-    </div>
-    </div>
-    </div>
+
+    <script src="../JS/calendario.js"></script>
+
+    <script>
+const inputDate = document.getElementById("data_evento_input");
+
+const homeDayNumber  = document.getElementById('home-day-number');
+const homeDayWeekday = document.getElementById('home-day-weekday');
+const homeDayMonth   = document.getElementById('home-day-month');
+const eventsInner    = document.getElementById('home-events-inner');
+
+const ongoingSection = document.getElementById('ongoing-section');
+const ongoingMeta    = document.getElementById('ongoing-meta');
+const ongoingTitle   = document.getElementById('ongoing-title');
+const ongoingLoc     = document.getElementById('ongoing-location');
+const ongoingBar     = document.getElementById('ongoing-bar');
+
+const MONTHS_IT = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno',
+                   'Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+
+const WEEKDAYS_IT = ['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'];
+
+function parseDate(str) {
+    return new Date(str);
+}
+
+function updateHeader(date) {
+    homeDayNumber.textContent  = date.getDate();
+    homeDayWeekday.textContent = WEEKDAYS_IT[date.getDay()];
+    homeDayMonth.textContent   = MONTHS_IT[date.getMonth()];
+}
+
+function loadEvents(dateStr) {
+    fetch(`get_events.php?date=${dateStr}`)
+        .then(r => r.json())
+        .then(data => renderEvents(data.events, dateStr));
+}
+
+function renderEvents(events, dateStr) {
+    eventsInner.innerHTML = '';
+    ongoingSection.style.display = 'none';
+
+    if (!events || events.length === 0) {
+        eventsInner.innerHTML = `<div class="ec-empty">Nessun evento</div>`;
+        return;
+    }
+
+    const now = new Date();
+    const todayStr = new Date().toISOString().split('T')[0];
+
+    events.forEach(ev => {
+        const start = new Date(ev.start);
+        const end   = new Date(ev.end);
+
+        const isToday = dateStr === todayStr;
+        const isOngoing = isToday && now >= start && now <= end;
+
+        if (isOngoing) {
+            const total = (end - start) / 60000;
+            const done  = (now - start) / 60000;
+            const pct   = Math.min(100, (done / total) * 100);
+
+            ongoingMeta.textContent  = `Evento in corso`;
+            ongoingTitle.textContent = ev.title;
+            ongoingLoc.textContent   = ev.location || '';
+            ongoingBar.style.width   = pct + '%';
+
+            ongoingSection.style.display = 'block';
+            return;
+        }
+
+        const card = document.createElement('div');
+        card.className = 'eventCard';
+
+        card.innerHTML = `
+            <div class="eventDuration">${ev.timeMain} • ${ev.duration}</div>
+            <div class="eventTitle">${ev.title}</div>
+            ${ev.location ? `<div class="eventSubtitle">${ev.location}</div>` : ''}
+        `;
+
+        eventsInner.appendChild(card);
+    });
+}
+
+// 🔥 ASCOLTA IL TUO INPUT (coerente col resto del progetto)
+inputDate.addEventListener("change", function () {
+    const dateStr = inputDate.value;
+    const dateObj = parseDate(dateStr);
+
+    updateHeader(dateObj);
+    loadEvents(dateStr);
+});
+
+// init
+inputDate.dispatchEvent(new Event("change"));
+</script>
+
 </body>
-
 </html>

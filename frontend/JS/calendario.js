@@ -37,6 +37,7 @@ let selected = {
 
 formattedDate = getSelectedDate();
 document.getElementById("data_evento_input").value = formattedDate;
+document.getElementById("data_evento_input").dispatchEvent(new Event("change"));
 
 let ddOpen = false;
 
@@ -190,19 +191,22 @@ function renderCalendar() {
     }
 
     day.addEventListener('click', function () {
-      selected = {
-        d: dayNumber,
-        m: cur.m,
-        y: cur.y
-      };
+  selected = {
+    d: dayNumber,
+    m: cur.m,
+    y: cur.y
+  };
 
-      //Per riempire il form in 'newEvent.php'
-      formattedDate = getSelectedDate();
-      document.getElementById("data_evento_input").value = formattedDate;
-      
+  formattedDate = getSelectedDate();
+  
+  const input = document.getElementById("data_evento_input");
+  input.value = formattedDate;
 
-      renderCalendar();
-    });
+  // 🔥 trigger evento (stile tuo sistema)
+  input.dispatchEvent(new Event("change"));
+
+  renderCalendar();
+});
 
     grid.appendChild(day);
   }

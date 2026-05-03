@@ -10,16 +10,29 @@ const WD = ['LUN', 'MAR', 'MER', 'GIO', 'VEN', 'SAB', 'DOM'];
 const today = new Date();
 
 let formattedDate;
+let initialYear, initialMonth, initialDay;
+
+if (window.calendarConfig) {
+  console.log("Dentro if: then");
+  initialYear   = window.calendarConfig.y;
+  initialMonth  = window.calendarConfig.m;
+  initialDay    = window.calendarConfig.d;
+} else {
+  console.log("Dentro if: else");
+  initialYear   = today.getFullYear();
+  initialMonth  = today.getMonth();
+  initialDay    = today.getDate();
+}
 
 let cur = {
-  y: today.getFullYear(),
-  m: today.getMonth()
+  y: initialYear,
+  m: initialMonth
 };
 
 let selected = {
-  d: today.getDate(),
-  m: today.getMonth(),
-  y: today.getFullYear(),
+  y: initialYear,
+  m: initialMonth,
+  d: initialDay  
 };
 
 formattedDate = getSelectedDate();
@@ -186,6 +199,7 @@ function renderCalendar() {
       //Per riempire il form in 'newEvent.php'
       formattedDate = getSelectedDate();
       document.getElementById("data_evento_input").value = formattedDate;
+      
 
       renderCalendar();
     });

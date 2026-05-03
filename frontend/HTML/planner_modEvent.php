@@ -360,6 +360,24 @@ if($result->num_rows > 0){
     }
     .newEvent-addBtn:hover { background: #e8720c; }
 
+    /* bottone cancella */
+    .newEvent-delBtn {
+      width: 100%;
+      padding: 17px;
+      background: #f52323;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 4px;
+      font-family: inherit;
+      transition: background 0.15s;
+      letter-spacing: 0.3px;
+    }
+    .newEvent-delBtn:hover { background: #e80c0c; }
+
     /* assistant placeholder card */
     .newEvent-assistantCard {
       padding: 24px 30px;
@@ -540,6 +558,10 @@ if($result->num_rows > 0){
               <button class="newEvent-addBtn">Conferma Modifiche</button>
 
             </div>
+          </form>
+          <form action="delEvent.php" method="post">
+            <input type="hidden" name="id_evnt" value="<?php echo $_GET['id_evnt'] ?>">
+            <button class="newEvent-delBtn">Elimina Evento</button>
           </form>
           
         </div>

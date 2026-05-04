@@ -18,7 +18,9 @@ $query .= "WHERE id = " . $id;
 
 if($conn->query($query) === TRUE){
     //echo "Evento modificato con successo";
+    http_response_code(200);
     header("Location: planner.html");
 }else{
+    http_response_code(400);
     echo "Errore";
 }

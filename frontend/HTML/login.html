@@ -12,16 +12,16 @@
 
 <body class="d-flex align-items-center py-4 ">
     <main class="form-signin w-100 m-auto">
-        <form>
+        <form action="../APIs/usrLogin.php" method="post">
             <div class="card shadow-soft">
                 <h1 class="h3 mb-3 fw-normal text-center">Accedi a MyOrganazed</h1>
 
                 <div class="form-floating">
-                    <input type="email" class="form-control" name="email" id="LogEmail" placeholder="name@example.com">
+                    <input type="email" class="form-control" name="email" id="LogEmail" placeholder="name@example.com" required>
                     <label for="LogEmail">Email</label>
                 </div>
                 <div class="form-floating">
-                    <input type="password" class="form-control" id="LogPassword" placeholder="Password">
+                    <input type="password" class="form-control" name="password" id="LogPassword" placeholder="Password" required>
                     <label for="LogPassword">Password</label>
                 </div>
 
@@ -32,9 +32,9 @@
             </label>
                 </div> -->
 
-                <div class="btn btn-primary w-100 py-2" id="LogBtn">
+                <button type="button" class="btn btn-primary w-100 py-2" id="LogBtn">
                     Accedi
-                </div>
+                </button>
                 <!-- <a href="./home.html" class="btn btn-primary w-100 py-2" id="LogBtn">Accedi</a> -->
                 <div class="redirection">
                     <p>Non hai un account? <a href="signin.html">Registrati</a></p>

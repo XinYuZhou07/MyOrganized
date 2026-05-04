@@ -1,8 +1,13 @@
 <?php
+    header('Content-Type: application/json');
+    
     session_start();
     include "usrCheck.php";
+    if(http_response_code() === 401) {
+        exit;
+    }
     include "connect_db.php";
-
+    
 
     $stmt = $conn->prepare("Select * from users where id = " . $_SESSION['user_id']);
     $stmt->execute();
@@ -15,19 +20,10 @@
 
     $usrInfos = $res->fetch_assoc();
 
-    $stmt2 = $conn->prepare("Select * from routines Inner Join usrstoroutines on usrstoroutines.`idRoutine` = routines.id where usrstoroutines.`idUsr` = " . $_SESSION['user_id']);
-    $stmt2->execute();
-    $res2 = $stmt2->get_result();
-    $routines = [];
-    while($row = $res2->fetch_assoc()){
-        $routines[] = $row;
-    }
-
     $wayOut = [
         'email' => $usrInfos['email'],
         'name' => $usrInfos['name'],
-        'surname' => $usrInfos['email'],
-        'routines' => $routines
+        'surname' => $usrInfos['surname']
     ];
 
     http_response_code(200);

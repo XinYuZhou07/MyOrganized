@@ -22,18 +22,13 @@
 
     $row = $res->fetch_assoc();
 
-    /*
+    
     if (!password_verify($psw, $row['psw'])) {
         http_response_code(401);
         exit;
-    }*/
-
-    if($psw === $row['psw']){
+    }else{
         $_SESSION['user_id'] = $row['id'];
         http_response_code(200);
-        exit;
-    }else{
-        http_response_code(401);
         exit;
     }
 ?>

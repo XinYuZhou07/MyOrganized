@@ -1,7 +1,7 @@
 <?php
 
-$dbuser = "root";
-$dbpassword = "";
+$dbuser = "myorgusr";
+$dbpassword = "DatabasePass";
 $dbname = "myorganized";
 $dbhost = "localhost";
 $dbport = 3306;

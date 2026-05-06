@@ -5,6 +5,7 @@
     include "../services/DBconnect.php";
 
     $filter = $_GET["filter"];
+    $keyword = $_GET["keyword"];
     
     if(isset($filter)){
         $stmt = $conn->prepare("SELECT
@@ -32,7 +33,34 @@
 
         $stmt->bind_param("i", $filter);
 
-    }else{
+    }else if(isset($keyword)){
+        $stmt = $conn->prepare("SELECT
+        routines.id AS id,
+        tags.descriz AS metatag,
+        routines.name AS title,
+        routines.descriz AS subtitle,
+        routines.price AS price,
+        
+        (
+        SELECT COUNT(*)
+            FROM usrRoutines
+            WHERE usrRoutines.idRoutine = routines.id
+        ) AS soldQta,
+        
+        (
+        SELECT COUNT(*)
+            FROM proposals
+            WHERE proposals.idRoutine = routines.id
+        ) AS proposalsQta
+
+        FROM routines
+        INNER JOIN tags ON routines.idTag = tags.id
+        WHERE routines.name LIKE ?;");
+
+        $keyword = "%" . $keyword . "%";
+        $stmt->bind_param("s", $keyword);
+
+    }else {
         $stmt = $conn->prepare("SELECT
         routines.id AS id,
         tags.descriz AS metatag,

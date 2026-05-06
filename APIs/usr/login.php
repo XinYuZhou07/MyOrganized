@@ -29,6 +29,7 @@
     }else{
         $_SESSION['user_id'] = $row['id'];
         http_response_code(200);
+        header("Location: ../../HTML/home.html");
         exit;
     }
 ?>

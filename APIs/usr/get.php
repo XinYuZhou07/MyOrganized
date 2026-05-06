@@ -1,8 +1,8 @@
 <?php
     header('Content-Type: application/json');
-    
     session_start();
     include "../services/usrCheck.php";
+
     if(http_response_code() === 401) {
         exit;
     }

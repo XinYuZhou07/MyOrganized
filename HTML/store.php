@@ -1,3 +1,9 @@
+<?php
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="it">
 
@@ -62,6 +68,9 @@
         <i class="bi bi-funnel-fill"></i>
         <span class="store-filtersLabel">Filtri di ricerca:</span>
 
+        <?php
+          
+        ?>
         <button class="store-filterBtn">Fitness</button>
         <button class="store-filterBtn">Scuola</button>
         <button class="store-filterBtn">Cucina</button>

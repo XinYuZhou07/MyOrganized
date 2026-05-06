@@ -4,10 +4,38 @@
     session_start();
     include "../services/DBconnect.php";
 
-    $filter = $_GET["filter"];
-    $keyword = $_GET["keyword"];
+
+    $filter = $_GET["filter"] ?? null;
+    $keyword = $_GET["keyword"] ?? null;
     
-    if(isset($filter)){
+    
+    if($filter!== null && $keyword !== null){
+        $stmt = $conn->prepare("SELECT
+        routines.id AS id,
+        tags.descriz AS metatag,
+        routines.name AS title,
+        routines.descriz AS subtitle,
+        routines.price AS price,
+        
+        (
+        SELECT COUNT(*)
+            FROM usrRoutines
+            WHERE usrRoutines.idRoutine = routines.id
+        ) AS soldQta,
+        
+        (
+        SELECT COUNT(*)
+            FROM proposals
+            WHERE proposals.idRoutine = routines.id
+        ) AS proposalsQta
+
+        FROM routines
+        INNER JOIN tags ON routines.idTag = tags.id
+        WHERE tags.id = ? and routines.name LIKE ?;");
+        $keyword = "%" . $keyword . "%";
+        $stmt->bind_param("is", $filter, $keyword);
+
+    }else if($filter !== null){
         $stmt = $conn->prepare("SELECT
         routines.id AS id,
         tags.descriz AS metatag,
@@ -33,7 +61,7 @@
 
         $stmt->bind_param("i", $filter);
 
-    }else if(isset($keyword)){
+    }else if($keyword!== null){
         $stmt = $conn->prepare("SELECT
         routines.id AS id,
         tags.descriz AS metatag,

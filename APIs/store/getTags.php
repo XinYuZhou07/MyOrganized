@@ -1,5 +1,5 @@
 <?php
-
+    
     header('Content-Type: application/json');
     session_start();
     include "../services/DBconnect.php";
@@ -17,7 +17,7 @@
     }
 
     $wayOut = [
-        'tagsInfos' => $tagsInfos
+        'tags' => $tagsInfos
     ];
 
     http_response_code(200);

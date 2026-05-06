@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "../APIs/services/DBconnect.php";
 include "../APIs/services/usrCheck.php";
 ?>

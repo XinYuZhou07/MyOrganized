@@ -1,14 +1,11 @@
 <?php
-// get_events.php — MyOrganized
-// Restituisce gli eventi di un dato giorno come JSON
-// Chiamata: get_events.php?date=YYYY-MM-DD
-
-include "../APIs/services/DBconnect.php";
-include "../APIs/services/usrCheck.php";
+session_start();
+$base = '/Applications/MAMP/htdocs/MyOrganized/APIs/services/';
+include($base . 'DBconnect.php');
+include($base . 'usrCheck.php');
 
 header("Content-Type: application/json; charset=UTF-8");
 
-// ── Sicurezza: valida il parametro date ──────────────────────────────────────
 $date = isset($_GET['date']) ? trim($_GET['date']) : '';
 
 if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
@@ -17,8 +14,6 @@ if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
     exit;
 }
 
-// ── Query: tutti gli eventi dell'utente per quella data ──────────────────────
-// TODO: sostituire 1 con l'id utente dalla sessione ($_SESSION['idUsr'])
 $idUsr = $_SESSION['user_id'];
 
 $stmt = $conn->prepare("
@@ -26,7 +21,7 @@ $stmt = $conn->prepare("
         id,
         title,
         descriz,
-        POSITION  AS location,
+        POSITION AS location,
         START,
         end
     FROM events
@@ -39,25 +34,18 @@ $stmt->bind_param("is", $idUsr, $date);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// ── Formatta ogni evento ─────────────────────────────────────────────────────
 $events = [];
 
 while ($row = $result->fetch_assoc()) {
-
-    // Orario inizio → "HH:MM"
     $startDt  = new DateTime($row['START']);
     $endDt    = new DateTime($row['end']);
     $timeMain = $startDt->format('H:i');
 
-    // Durata in ore (es. 1.5h, 45min)
-    $diffSec  = $endDt->getTimestamp() - $startDt->getTimestamp();
-    $diffMin  = $diffSec / 60;
+    $diffMin = ($endDt->getTimestamp() - $startDt->getTimestamp()) / 60;
 
     if ($diffMin >= 60 && $diffMin % 60 === 0) {
-        // Ore intere
         $duration = ($diffMin / 60) . 'h';
     } elseif ($diffMin >= 60) {
-        // Ore + minuti
         $h = floor($diffMin / 60);
         $m = $diffMin % 60;
         $duration = $h . 'h ' . $m . 'min';
@@ -79,7 +67,6 @@ while ($row = $result->fetch_assoc()) {
 
 $stmt->close();
 
-// ── Output ────────────────────────────────────────────────────────────────────
 echo json_encode([
     "date"   => $date,
     "count"  => count($events),

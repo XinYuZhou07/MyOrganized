@@ -30,7 +30,7 @@
                 <div class="ec-empty-text">Caricamento eventi…</div>
             </div>`;
 
-        fetch(`get_events.php?date=${toIso(y, m, d)}`)
+        fetch(`../APIs/events/get.php?date=${toIso(y, m, d)}`)
             .then(r => r.json())
             .then(data => renderEvents(data.events))
             .catch(() => {

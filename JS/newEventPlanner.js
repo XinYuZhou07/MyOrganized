@@ -14,7 +14,6 @@
     return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
   }
 
-  // ── Aggiorna day header e hidden input del form ───────────────────────────
   function updateFormHeader(y, m, d) {
     const jsDate = new Date(y, m, d);
     formDayNumber.textContent  = d;
@@ -26,7 +25,6 @@
     agendaDateLabel.textContent = `${gg} ${d} ${MONTHS_IT[m]}`;
   }
 
-  // ── Carica eventi del giorno nell'agenda ──────────────────────────────────
   function loadAgenda(y, m, d) {
     agendaList.innerHTML = `
       <div class="agenda-empty">
@@ -34,7 +32,7 @@
         <span>Caricamento…</span>
       </div>`;
 
-    fetch(`get_events.php?date=${toIso(y, m, d)}`)
+    fetch(`../APIs/events/get.php?date=${toIso(y, m, d)}`)
       .then(r => r.json())
       .then(data => renderAgenda(data.events))
       .catch(() => {
@@ -78,10 +76,9 @@
       .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  // ── Calcolo durata dinamico ───────────────────────────────────────────────
-  const startTimeInput    = document.getElementById('startTime');
-  const endTimeInput      = document.getElementById('endTime');
-  const durationDisplay   = document.getElementById('duration-display');
+  const startTimeInput  = document.getElementById('startTime');
+  const endTimeInput    = document.getElementById('endTime');
+  const durationDisplay = document.getElementById('duration-display');
 
   function updateDuration() {
     const [sh, sm] = startTimeInput.value.split(':').map(Number);
@@ -96,28 +93,22 @@
   startTimeInput.addEventListener('change', updateDuration);
   endTimeInput.addEventListener('change', updateDuration);
 
-  // ── Hook su calendario.js ─────────────────────────────────────────────────
-  // Avvolgiamo renderCalendar per agganciare il click su ogni giorno
   const _origRender = renderCalendar;
   renderCalendar = function() {
     _origRender();
     document.querySelectorAll('#cal-grid .day:not(.prevMonth)').forEach(el => {
       el.addEventListener('click', () => {
-        // `selected` è la variabile globale di calendario.js
         updateFormHeader(selected.y, selected.m, selected.d);
         loadAgenda(selected.y, selected.m, selected.d);
       });
     });
   };
 
-  // Primo render con hook attivo
   renderCalendar();
 
-  // Inizializza con il giorno già selezionato da calendario.js (oggi di default)
   updateFormHeader(selected.y, selected.m, selected.d);
   loadAgenda(selected.y, selected.m, selected.d);
 
-  // Animazione spinner
   const style = document.createElement('style');
   style.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
   document.head.appendChild(style);

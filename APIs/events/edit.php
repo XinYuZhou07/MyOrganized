@@ -1,6 +1,7 @@
 <?php
-include "../APIs/services/DBconnect.php";
-include "../APIs/services/usrCheck.php";
+$base = '/Applications/MAMP/htdocs/MyOrganized/APIs/services/';
+include($base . 'DBconnect.php');
+include($base . 'usrCheck.php');
 
 $id = $_POST["id_evnt"];
 $nome = $_POST["nameEvent"];

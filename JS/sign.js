@@ -12,7 +12,7 @@ signBtn.addEventListener('click', () => {
         console.log("Errore");
         return false;
     }
-    window.location.href = "./home.html"; //momentaneo
+    window.location.href = "./home.html"; 
     return true;
 });
 

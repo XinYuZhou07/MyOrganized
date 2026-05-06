@@ -188,7 +188,7 @@ function updateHeader(date) {
 }
 
 function loadEvents(dateStr) {
-    fetch(`get_events.php?date=${dateStr}`)
+    fetch(`../APIs/events/get.php?date=${dateStr}`)
         .then(r => r.json())
         .then(data => renderEvents(data.events, dateStr));
 }

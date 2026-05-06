@@ -24,12 +24,13 @@ document.getElementById('LogBtn').addEventListener('click', async () => {
     formData.append('password', password);
 
     const res = await fetch('../APIs/usr/login.php', {
-        method: 'POST',
-        body: formData
-    });
+    method: 'POST',
+    body: formData,
+    credentials: 'include' 
+});
 
     if (res.ok) {
-        window.location.href = './home.html';
+        window.location.href = "./home.html"; 
     } else if (res.status === 401) {
         alert('Email o password errati');
     } else {

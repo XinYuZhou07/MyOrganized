@@ -1,3 +1,8 @@
+<?php
+session_start();
+include "../APIs/services/DBconnect.php";
+?>
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -137,20 +142,20 @@
                     <div class="elementSubtitle">Visualizza gli ultimi aggiornamenti.</div>
                     <hr style="margin:12px 0; opacity:0.25;">
                     <div>
-                        <div>
-                            <div class="metaTag" style="font-weight:600;">CNN</div>
-                            <div class="elementText">US trumpets Ukraine progress, but will the Kremlin agree?</div>
-                        </div>
-                        <div class="spacer-Mini"></div>
-                        <div>
-                            <div class="metaTag" style="font-weight:600;">BBC</div>
-                            <div class="elementText">Boy with rare condition amazes doctors after world-first gene therapy</div>
-                        </div>
-                        <div class="spacer-Mini"></div>
-                        <div>
-                            <div class="metaTag" style="font-weight:600;">RSS Source</div>
-                            <div class="elementText">Other News Article</div>
-                        </div>
+
+                        <?php
+                            include "../APIs/usr/feedRSS.php";
+                            $rssElements = feedRSS($conn);
+
+                            foreach ($rssElements as $element) {
+                                echo '<div>';
+                                echo '<div class="metaTag" style="font-weight:600;">' . htmlspecialchars($element['owner']) . '</div>';
+                                echo '<div class="elementText">' . htmlspecialchars($element['title']) . '</div>';
+                                echo '</div>';
+                                echo '<div class="spacer-Mini"></div>';
+                            }
+                        ?>
+
                     </div>
                 </div>
 

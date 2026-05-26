@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+
 session_start();
 
 include "../APIs/services/DBconnect.php";
@@ -81,8 +84,8 @@ $dati = getUserInfo($conn);
     <div class="mainView">
         <div class="mainLayout plannerLayout">
             <div class="rightColumn">
-                <p class="superTitle">Planner</p>
-                <p class="subTitle">Preparati per nuovi eventi.</p>
+                <p class="superTitle">Le Tue Informazioni</p>
+                <p class="subTitle">Modifica nome, cognome e Informazioni.</p>
 
                 <form action="../APIs/usr/edit.php" method="post" enctype="multipart/form-data" >
                     <h3 class="profile-title">ANAGRAFICA</h3>

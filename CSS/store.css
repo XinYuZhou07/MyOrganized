@@ -1,5 +1,5 @@
 /* =========================== */
-/*   BACKGROUND & CONTAINER    */
+/* BACKGROUND & CONTAINER    */
 /* =========================== */
 
 body {
@@ -13,7 +13,7 @@ body {
 }
 
 /* =========================== */
-/*        TIPOGRAFIA           */
+/* TIPOGRAFIA           */
 /* =========================== */
 /* superTitle e subTitle li erediti da interCSS.
    Qui aggiusto solo margini. */
@@ -38,13 +38,13 @@ body {
 }
 
 /* =========================== */
-/*         SEARCH BAR          */
+/* SEARCH BAR          */
 /* =========================== */
 
 .store-searchForm {
   position: relative;
   margin-top: 24px;
-  margin-right: 70px;
+  /* Rimosso margin-right: 70px per evitare asimmetrie brutte */
 }
 
 .store-searchInput {
@@ -82,12 +82,13 @@ body {
 }
 
 /* =========================== */
-/*            FILTRI           */
+/* FILTRI           */
 /* =========================== */
 
 .store-filtersRow {
   display: flex;
   align-items: center;
+  flex-wrap: wrap; /* Evita che i filtri vadano fuori schermo su mobile */
   gap: 10px;
   margin-top: 18px;
   color: #9F9F9F;
@@ -102,24 +103,50 @@ body {
   font-size: 16px;
 }
 
-.store-filterBtn {
-  border: none;
-  background: #FFFFFF;
-  padding: 8px 18px;
-  font-size: 15px;
-  border-radius: 6px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+/* Nasconde il cerchietto del radio button originale */
+.store-radioFilter {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    
 }
 
+/* Stile di base per il "finto" bottone (UNIFICATO) */
+.store-filterBtn {
+  display: inline-block;
+  padding: 8px 18px;
+  font-size: 15px;
+  border: 1px solid #E0E0E0;
+  border-radius: 6px;
+  background: #FFFFFF;
+  color: #484848;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Effetto Hover */
 .store-filterBtn:hover {
-  background: #FF8C00;
+  background: #FFF3E0; /* Un leggero arancione chiaro di transizione */
+  border-color: #FF8C00;
+  color: #FF8C00;
+}
+
+/* Quando il radio button è selezionato (Attivo col colore del Brand) */
+.store-radioFilter:checked + .store-filterBtn {
+  background-color: #FF8C00; 
   color: #FFFFFF;
+  border-color: #FF8C00;
+  box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
 }
 
 /* =========================== */
-/*            CARDS            */
+/* CARDS            */
 /* =========================== */
 
 .store-cardsRow {
@@ -182,6 +209,7 @@ body {
   display: flex;
   justify-content: flex-end;
   background: #FFFFFF;
+  margin-top: auto; /* Spinge il bottone sempre in fondo se i testi hanno lunghezze diverse */
 }
 
 .store-cardButton {
@@ -200,4 +228,3 @@ body {
 .store-cardButton .bi-arrow-right {
   font-size: 16px;
 }
-

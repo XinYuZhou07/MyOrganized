@@ -1,7 +1,19 @@
 <?php
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
 
+session_start();
 
+include "../APIs/services/DBconnect.php";
+include "../APIs/services/usrCheck.php";
+include("../APIs/store/getRoutines.php");
+include_once("../APIs/store/getTags.php");
 
+$res = getRoutines($conn);
+$routines = $res["routines"];
+
+$res = getTags($conn);
+$tags = $res["tags"];
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +35,7 @@
   <link rel="stylesheet" href="../CSS/interCSS.css">
 
   <!-- CSS pagina Store -->
-  <link rel="stylesheet" href="../CSS/store.css">
+  <link rel="stylesheet" href="../CSS/store.css?v=1.1">
 </head>
 
 <body>
@@ -33,16 +45,18 @@
     <div class="navBar-L">
       <span class="navBar-Brand">MyOrganized</span>
       <div class="navBar-Link">
-        <a href="./home.html">Panoramica</a>
+        <a href="home.html">Panoramica</a>
         <a href="#" class="Active">Store</a>
-        <a href="./planner.html">Planner</a>
+        <a href="planner.html">Planner</a>
       </div>
     </div>
 
-    <div class="navBar-R">
-      <span class="navBar-UsrName">John Appleseed</span>
-      <img class="navBar-Avatar" src="./img/defaultProfile.jpg" alt="">
-    </div>
+    <a href="./profile-info.php">
+      <div class="navBar-R">
+        <span class="navBar-UsrName">John Appleseed</span>
+        <img class="navBar-Avatar" src="./img/defaultProfile.jpg" alt="">
+      </div>
+    </a>
   </div>
 
   <!-- CONTENUTO -->
@@ -56,26 +70,41 @@
       </h2>
 
       <!-- Search bar -->
-      <form class="store-searchForm">
-        <input type="text" class="store-searchInput" placeholder="Cosa stai cercando...">
+      <form class="store-searchForm" method="get">
+        <input type="text" name="keyword" class="store-searchInput" placeholder="Cosa stai cercando...">
         <button type="submit" class="store-searchButton">
           <i class="bi bi-arrow-right"></i>
         </button>
+        
+        <!-- Filtri -->
+        <div class="store-filtersRow">
+          <i class="bi bi-funnel-fill"></i>
+          <span class="store-filtersLabel">Filtri di ricerca:</span>
+          
+          <input type="radio" name="filter" id="filter-all" value="" 
+           <?php echo (!isset($_GET['filter']) || $_GET['filter'] === '') ? 'checked' : ''; ?> 
+           onChange="this.form.submit()" class="store-radioFilter">
+          <label for="filter-all" class="store-filterBtn">Tutti</label>
+
+          <?php 
+            foreach($tags as $tag){
+              $isSelected = (isset($_GET['filter']) && $_GET['filter'] == $tag["id"]) ? 'checked' : '';
+              ?>
+              <!-- <button class="store-filterBtn"><?php //echo $tag["descriz"] ?></button> -->
+
+              <input type="radio" name="filter" id="filter-<?php echo $tag["id"] ?>" value="<?php echo $tag["id"] ?>" 
+              <?php echo $isSelected; ?> onChange="this.form.submit()" class="store-radioFilter">
+        
+              <label for="filter-<?php echo $tag["id"] ?>" class="store-filterBtn">
+                <?php echo $tag["descriz"] ?>
+              </label>
+              <?php
+            }
+          ?>
+        </div>
       </form>
 
-      <!-- Filtri -->
-      <div class="store-filtersRow">
-        <i class="bi bi-funnel-fill"></i>
-        <span class="store-filtersLabel">Filtri di ricerca:</span>
-
-        <?php
-          
-        ?>
-        <button class="store-filterBtn">Fitness</button>
-        <button class="store-filterBtn">Scuola</button>
-        <button class="store-filterBtn">Cucina</button>
-        <button class="store-filterBtn">Finanza</button>
-      </div>
+      
 
       <!-- In Tendenza -->
       <h3 class="store-sectionTitle">IN TENDENZA</h3>
@@ -84,16 +113,20 @@
       <div class="store-cardsRow">
         
         <!-- Card 1 -->
-        <article class="store-card">
+        <?php 
+        foreach($routines as $routine){
+          ?>
+
+          <article class="store-card">
           <div class="store-cardImageWrapper">
-            <img src="./img/gordon.jpg" alt="Routine di Gordon Ramsay" class="store-cardImage">
+            <img src=" <?php echo $routine["img"] ?> " alt="Routine di<?php echo $routine["title"] ?> " class="store-cardImage">
           </div>
 
           <div class="store-cardBody">
-            <div class="store-cardMeta">CUCINA</div>
-            <h4 class="store-cardTitle">Routine di Gordon Ramsay</h4>
+            <div class="store-cardMeta"><?php echo $routine["metatag"] ?></div>
+            <h4 class="store-cardTitle">Routine di <?php echo $routine["title"] ?></h4>
             <p class="store-cardText">
-              I work hard, but I power down completely for 48 hours. Those weekends off are non-negotiable.
+              <?php echo $routine["subtitle"] ?>
             </p>
           </div>
 
@@ -105,27 +138,10 @@
           </div>
         </article>
 
-        <!-- Card 2 -->
-        <article class="store-card">
-          <div class="store-cardImageWrapper">
-            <img src="./img/cuban.png" alt="Routine di Mark Cuban" class="store-cardImage">
-          </div>
+        <?php
+        }
+        ?>
 
-          <div class="store-cardBody">
-            <div class="store-cardMeta">FINANZA</div>
-            <h4 class="store-cardTitle">Routine di Mark Cuban</h4>
-            <p class="store-cardText">
-              Work like there is someone working 24 hours a day to take it all away from you.
-            </p>
-          </div>
-
-          <div class="store-cardFooter">
-            <button class="store-cardButton">
-              Scopri di Più
-              <i class="bi bi-arrow-right"></i>
-            </button>
-          </div>
-        </article>
       </div>
 
     </div>

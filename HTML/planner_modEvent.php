@@ -1,10 +1,13 @@
 <?php
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+
 session_start();
 include "../APIs/services/DBconnect.php";
 include "../APIs/services/usrCheck.php";
 
-if(!isset($_GET["id_evnt"])){
-    die("Errore: id_evnt non esiste");
+if (!isset($_GET["id_evnt"])) {
+  die("Errore: id_evnt non esiste");
 }
 
 $query = "SELECT title, descriz, position, start, end ";
@@ -12,25 +15,24 @@ $query .= "FROM events ";
 $query .= "WHERE id = " . $_GET["id_evnt"];
 
 $result = $conn->query($query);
-if($result->num_rows > 0){
-    $row = $result->fetch_assoc();
+if ($result->num_rows > 0) {
+  $row = $result->fetch_assoc();
 
-    //die($row["title" ]. " " . $row["start"]);
+  //die($row["title" ]. " " . $row["start"]);
 
-    $dateTmp = new DateTime($row["start"]);
-    $date = array(
-        'y' => (int)$dateTmp->format('Y'),
-        'm' => (int)$dateTmp->format('n') - 1,  // Mesi in JS 0-11
-        'd' => (int)$dateTmp->format('j')       // n e j per avere mesi e giorni senza zeri es: aprile = 4 NON 04
-    );
+  $dateTmp = new DateTime($row["start"]);
+  $date = array(
+    'y' => (int)$dateTmp->format('Y'),
+    'm' => (int)$dateTmp->format('n') - 1,  // Mesi in JS 0-11
+    'd' => (int)$dateTmp->format('j')       // n e j per avere mesi e giorni senza zeri es: aprile = 4 NON 04
+  );
 
-    $startTime = $dateTmp->format("H:i");
+  $startTime = $dateTmp->format("H:i");
 
-    $dateTmp = new DateTime($row["end"]);
-    $endTime = $dateTmp->format("H:i");
-
-}else{
-    die("Errore: risultato della select");
+  $dateTmp = new DateTime($row["end"]);
+  $endTime = $dateTmp->format("H:i");
+} else {
+  die("Errore: risultato della select");
 }
 
 ?>
@@ -38,6 +40,7 @@ if($result->num_rows > 0){
 
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -66,13 +69,15 @@ if($result->num_rows > 0){
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
     }
+
     .navbar-newEvent-L {
       display: flex;
       align-items: center;
       gap: 14px;
     }
+
     .navbar-newEvent-back {
       color: white;
       font-size: 22px;
@@ -80,18 +85,21 @@ if($result->num_rows > 0){
       opacity: 0.85;
       line-height: 1;
     }
+
     .navbar-newEvent-titleBlock .main {
       font-size: 20px;
       font-weight: 400;
       color: white;
       line-height: 1.15;
     }
+
     .navbar-newEvent-titleBlock .sub {
       font-size: 13px;
       font-weight: 200;
-      color: rgba(255,255,255,0.55);
+      color: rgba(255, 255, 255, 0.55);
       line-height: 1;
     }
+
     .navbar-newEvent-brand {
       font-size: 22px;
       font-weight: 300;
@@ -126,6 +134,7 @@ if($result->num_rows > 0){
       margin-top: 10px;
       text-align: center;
     }
+
     .calendar .weekday {
       font-size: 12px;
       font-weight: 600;
@@ -133,6 +142,7 @@ if($result->num_rows > 0){
       padding: 4px 0;
       letter-spacing: 0.5px;
     }
+
     .calendar .day {
       font-size: 14px;
       width: 38px;
@@ -148,37 +158,57 @@ if($result->num_rows > 0){
       transition: background 0.15s;
       border: 1px solid #e8e8e8;
     }
-    .calendar .day:hover { background: #f5f5f5; }
-    .calendar .day.prevMonth { color: #bbb; border-color: #f0f0f0; }
+
+    .calendar .day:hover {
+      background: #f5f5f5;
+    }
+
+    .calendar .day.prevMonth {
+      color: #bbb;
+      border-color: #f0f0f0;
+    }
+
     .calendar .day.today {
       background: #e8720c;
       color: #fff;
       border-color: #e8720c;
       font-weight: 500;
-      box-shadow: 0 4px 12px rgba(243,156,18,0.3);
+      box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
     }
+
     .calendar .day.selected {
       background: #f5a623;
       color: #fff;
       border-color: #f5a623;
       font-weight: 500;
     }
-    .calendar .day.sunday { color: #e0547a; border-color: #fce4ec; }
+
+    .calendar .day.sunday {
+      color: #e0547a;
+      border-color: #fce4ec;
+    }
+
     .calendar .day.sunday.today,
-    .calendar .day.sunday.selected { color: #fff; }
+    .calendar .day.sunday.selected {
+      color: #fff;
+    }
 
     /* ── LA TUA GIORNATA (agenda box) ── */
     .newEvent-dayAgenda {
-      border: 2px solid #333 !important; /* come screenshot */
+      border: 2px solid #333 !important;
+      /* come screenshot */
     }
+
     .newEvent-dayAgenda-header {
       margin-bottom: 14px;
     }
+
     .newEvent-dayAgenda-list {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
+
     .newEvent-agendaItem {
       display: flex;
       gap: 12px;
@@ -187,26 +217,31 @@ if($result->num_rows > 0){
       border: 1px solid #eee;
       background: #fff;
     }
+
     .newEvent-agendaTime {
       min-width: 38px;
       text-align: left;
     }
+
     .newEvent-agendaTime .timeMain {
       font-size: 13px;
       font-weight: 600;
       color: #4a4aab;
       display: block;
     }
+
     .newEvent-agendaTime .timeSub {
       font-size: 10px;
       color: #aaa;
       display: block;
     }
+
     .newEvent-agendaTitle {
       font-size: 14px;
       font-weight: 500;
       color: #111;
     }
+
     .newEvent-agendaLocation {
       font-size: 12px;
       color: #999;
@@ -229,19 +264,23 @@ if($result->num_rows > 0){
       gap: 14px;
       margin-bottom: 18px;
     }
+
     .newEvent-dayNumber {
       font-size: 80px;
       font-weight: 100;
       line-height: 0.9;
       color: #111;
     }
+
     .newEvent-dayMeta {}
+
     .newEvent-dayWeekday {
       font-size: 28px;
       font-weight: 300;
       color: #111;
       line-height: 1.1;
     }
+
     .newEvent-dayMonth {
       font-size: 28px;
       font-weight: 400;
@@ -252,12 +291,14 @@ if($result->num_rows > 0){
     .newEvent-formIntro {
       margin-bottom: 22px;
     }
+
     .newEvent-formIntro-small {
       font-size: 13px;
       color: #aaa;
       font-weight: 200;
       margin-bottom: 2px;
     }
+
     .newEvent-formIntro-bold {
       font-size: 17px;
       font-weight: 500;
@@ -270,7 +311,9 @@ if($result->num_rows > 0){
       flex-direction: column;
       gap: 16px;
     }
+
     .newEvent-fieldGroup {}
+
     .newEvent-fieldLabel {
       font-size: 12px;
       font-weight: 500;
@@ -280,6 +323,7 @@ if($result->num_rows > 0){
       margin-bottom: 6px;
       display: block;
     }
+
     .newEvent-input {
       width: 100%;
       padding: 13px 16px;
@@ -292,9 +336,18 @@ if($result->num_rows > 0){
       font-family: inherit;
       transition: border-color 0.15s;
     }
-    .newEvent-input:focus { border-color: #f5a623; }
-    .newEvent-input::placeholder { color: #ccc; }
-    textarea.newEvent-input { resize: none; }
+
+    .newEvent-input:focus {
+      border-color: #f5a623;
+    }
+
+    .newEvent-input::placeholder {
+      color: #ccc;
+    }
+
+    textarea.newEvent-input {
+      resize: none;
+    }
 
     /* riga orari */
     .newEvent-timeRow {
@@ -302,17 +355,20 @@ if($result->num_rows > 0){
       align-items: center;
       gap: 12px;
     }
+
     .timeBlock {
       display: flex;
       align-items: center;
       gap: 8px;
       flex: 1;
     }
+
     .timeLabel {
       font-size: 13px;
       color: #888;
       white-space: nowrap;
     }
+
     .newEvent-inputTime {
       padding: 11px 12px;
       border: 1px solid #e0e0e0;
@@ -323,7 +379,10 @@ if($result->num_rows > 0){
       width: 100%;
       font-family: inherit;
     }
-    .newEvent-inputTime:focus { border-color: #f5a623; }
+
+    .newEvent-inputTime:focus {
+      border-color: #f5a623;
+    }
 
     .timeDuration {
       background: #f5a623;
@@ -333,11 +392,13 @@ if($result->num_rows > 0){
       text-align: center;
       min-width: 88px;
     }
+
     .timeDuration-main {
       font-size: 20px;
       font-weight: 600;
       line-height: 1;
     }
+
     .timeDuration-sub {
       font-size: 10px;
       opacity: 0.9;
@@ -360,7 +421,10 @@ if($result->num_rows > 0){
       transition: background 0.15s;
       letter-spacing: 0.3px;
     }
-    .newEvent-addBtn:hover { background: #e8720c; }
+
+    .newEvent-addBtn:hover {
+      background: #e8720c;
+    }
 
     /* bottone cancella */
     .newEvent-delBtn {
@@ -378,18 +442,23 @@ if($result->num_rows > 0){
       transition: background 0.15s;
       letter-spacing: 0.3px;
     }
-    .newEvent-delBtn:hover { background: #e80c0c; }
+
+    .newEvent-delBtn:hover {
+      background: #e80c0c;
+    }
 
     /* assistant placeholder card */
     .newEvent-assistantCard {
       padding: 24px 30px;
     }
+
     .newEvent-assistantCard .superTitle {
       font-size: 42px;
       font-weight: 300;
       margin-bottom: -10px;
       color: #404040;
     }
+
     .newEvent-assistantCard .subTitle {
       font-size: 24px;
       font-weight: 200;
@@ -397,6 +466,7 @@ if($result->num_rows > 0){
     }
   </style>
 </head>
+
 <body>
 
   <!-- NAVBAR NUOVO EVENTO -->
@@ -418,10 +488,10 @@ if($result->num_rows > 0){
     <div class="mainLayout newEvent-layout">
 
       <!-- COLONNA SINISTRA: calendario + agenda -->
-<div class="newEvent-leftCol">
+      <div class="newEvent-leftCol">
 
-  <!-- CALENDARIO DINAMICO (Sostituito quello statico) -->
-  <div class="block planner-calendar-block">
+        <!-- CALENDARIO DINAMICO (Sostituito quello statico) -->
+        <div class="block planner-calendar-block">
 
           <div class="metaTag">Calendario</div>
 
@@ -453,7 +523,7 @@ if($result->num_rows > 0){
         </div>
 
         <!-- LA TUA GIORNATA -->
-         
+
         <div class="block newEvent-dayAgenda">
           <div class="newEvent-dayAgenda-header">
             <div class="metaTag" style="font-size:14px;">La tua Giornata</div>
@@ -505,7 +575,7 @@ if($result->num_rows > 0){
         <!-- FORM CARD -->
         <div class="block newEvent-formCard">
 
-        <!-- TODO: RENDERE DINAMICO -->
+          <!-- TODO: RENDERE DINAMICO -->
           <div class="newEvent-dayHeader">
             <div class="newEvent-dayNumber"> 19 </div>
             <div class="newEvent-dayMeta">
@@ -530,13 +600,13 @@ if($result->num_rows > 0){
 
               <div class="newEvent-fieldGroup">
                 <span class="newEvent-fieldLabel">Posizione</span>
-                <input type="text" name="placeEvent" class="newEvent-input" value="<?php echo $row["position"] ?>" >
+                <input type="text" name="placeEvent" class="newEvent-input" value="<?php echo $row["position"] ?>">
               </div>
 
               <div class="newEvent-fieldGroup">
                 <span class="newEvent-fieldLabel">Timeline</span>
                 <div class="newEvent-timeRow">
-                  <input type="hidden" name="dateEvent" id="data_evento_input" >
+                  <input type="hidden" name="dateEvent" id="data_evento_input">
                   <div class="timeBlock">
                     <span class="timeLabel">Dalle Ore:</span>
                     <input type="time" name="startTime" class="newEvent-inputTime" value="<?php echo $startTime ?>">
@@ -565,7 +635,7 @@ if($result->num_rows > 0){
             <input type="hidden" name="id_evnt" value="<?php echo $_GET['id_evnt'] ?>">
             <button class="newEvent-delBtn">Elimina Evento</button>
           </form>
-          
+
         </div>
 
         <!-- ASSISTANT CARD -->
@@ -582,8 +652,8 @@ if($result->num_rows > 0){
   <script>
     // Creiamo un oggetto globale che JS potrà leggere
     window.calendarConfig = <?php echo json_encode($date); ?>;
-
-    </script>
+  </script>
   <script src="../JS/calendario.js"></script>
 </body>
+
 </html>

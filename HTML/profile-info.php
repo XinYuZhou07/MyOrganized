@@ -75,8 +75,8 @@ $dati = getUserInfo($conn);
         <div class="navBar-L">
             <a class="navBar-Brand" href="./homePage.html">MyOrganized</a>
             <div class="navBar-Link">
-                <a href="#" class="Active">Panoramica</a>
-                <a href="./store.html">Store</a>
+                <a href="./home.php">Panoramica</a>
+                <a href="./store.php">Store</a>
                 <a href="./planner.html">Planner</a>
             </div>
         </div>

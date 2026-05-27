@@ -45,7 +45,7 @@ $tags = $res["tags"];
     <div class="navBar-L">
       <span class="navBar-Brand">MyOrganized</span>
       <div class="navBar-Link">
-        <a href="home.html">Panoramica</a>
+        <a href="home.php">Panoramica</a>
         <a href="#" class="Active">Store</a>
         <a href="planner.html">Planner</a>
       </div>
@@ -75,8 +75,10 @@ $tags = $res["tags"];
         <button type="submit" class="store-searchButton">
           <i class="bi bi-arrow-right"></i>
         </button>
+      </form>
         
         <!-- Filtri -->
+      <form class="store-searchForm" method="get">
         <div class="store-filtersRow">
           <i class="bi bi-funnel-fill"></i>
           <span class="store-filtersLabel">Filtri di ricerca:</span>
@@ -107,7 +109,7 @@ $tags = $res["tags"];
       
 
       <!-- In Tendenza -->
-      <h3 class="store-sectionTitle">IN TENDENZA</h3>
+      <h3 class="store-sectionTitle">ADESSO IN MYORGANIZED</h3>
 
       <!-- Cards -->
       <div class="store-cardsRow">

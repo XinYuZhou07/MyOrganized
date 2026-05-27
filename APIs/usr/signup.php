@@ -24,6 +24,6 @@
 
     $_SESSION['user_id'] = $conn->insert_id;
     http_response_code(200);
-    header("Location: ../../HTML/home.html");
+    header("Location: ../../HTML/home.php");
     exit;
 ?>
